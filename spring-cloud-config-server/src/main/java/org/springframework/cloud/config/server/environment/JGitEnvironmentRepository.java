@@ -239,7 +239,7 @@ public class JGitEnvironmentRepository extends AbstractScmEnvironmentRepository
 
 	/**
 	 * Clones the remote repository and then opens a connection to it.
-	 * 
+	 *
 	 * @throws GitAPIException
 	 * @throws IOException
 	 */
@@ -553,8 +553,7 @@ public class JGitEnvironmentRepository extends AbstractScmEnvironmentRepository
 		}
 
 		public CloneCommand getCloneCommandByCloneRepository() {
-			CloneCommand command = Git.cloneRepository();
-			return command;
+			return Git.cloneRepository().setCloneSubmodules(true);
 		}
 	}
 
