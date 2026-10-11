@@ -13,7 +13,7 @@
 	<parent>
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>spring-cloud-build</artifactId>
-		<version>2.2.0.BUILD-SNAPSHOT</version>
+		<version>2.2.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<scm>
@@ -27,8 +27,10 @@
 	</scm>
 	<properties>
 		<bintray.package>config</bintray.package>
-		<spring-cloud-commons.version>2.2.0.BUILD-SNAPSHOT</spring-cloud-commons.version>
-		<aws-java-sdk.version>1.11.52</aws-java-sdk.version>
+		<!-- Same-release rules, kept local so validation also works offline. -->
+		<checkstyle.suppressions.file>${maven.multiModuleProjectDirectory}/src/checkstyle/build-2.2.0-suppressions.xml</checkstyle.suppressions.file>
+		<spring-cloud-commons.version>2.2.0.RELEASE</spring-cloud-commons.version>
+		<aws-java-sdk.version>1.12.261</aws-java-sdk.version>
 		<maven-checkstyle-plugin.failsOnError>true</maven-checkstyle-plugin.failsOnError>
 		<maven-checkstyle-plugin.failsOnViolation>true
 		</maven-checkstyle-plugin.failsOnViolation>
