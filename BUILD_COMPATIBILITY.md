@@ -51,7 +51,32 @@ rendering and production deployment are outside this acceptance.
 ## Automatic CI and publication
 
 The existing CircleCI source now uses the same JDK 8/Maven image, one small job,
-format checks and only the 13 fast behavior units. Full integration/coverage
+format checks and only the 38 fast behavior units. Full integration/coverage
 runs stay local; the old codecov upload and stored-artifact steps are removed.
 The job invokes test, never install/deploy/publish. No credentials or host,
 account, network or security settings are changed.
+
+## JGit dependency compatibility
+
+JGit 5.13.4.202507202350-r is not accepted on this Java 8 baseline. Its
+version-only proposal first fails compilation because JSch SSH support has
+moved into a separate module. With that module supplied, both local cloning
+regressions fail with NoSuchMethodError for ByteBuffer.mark(); an isolated
+CLI dependency control reproduces those two errors with the repaired sources.
+
+Use the official 5.13.5.202508271544-r patch, whose upstream compiler targets
+release 8, and explicitly include its matching org.eclipse.jgit.ssh.jsch
+module. Original SSH package names, production Java and Java 8 remain intact.
+The test repository fake supplies the new abstract identifier method; its HEAD
+lookup mocks target the non-final firstExactRef method because getRef is now
+final. All existing behavioral assertions remain unchanged.
+
+The expanded acceptance has 162 tests: the original 137 plus 25 local SSH
+configuration/factory checks. The old JGit 5.1.3 control passes those behaviors
+using its original reference lookup mocks; the new factory-selection regression
+also passes on that control. Automatic CI includes the 13 Git/S3 units and the
+25 fast SSH units. Real remote SSH handshakes and exploit simulations are not
+part of this acceptance; no complete security-audit claim is made.
+
+Official compiler baseline:
+https://raw.githubusercontent.com/eclipse-jgit/jgit/v5.13.5.202508271544-r/pom.xml
