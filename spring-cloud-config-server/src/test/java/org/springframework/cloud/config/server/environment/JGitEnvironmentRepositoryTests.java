@@ -76,6 +76,7 @@ import org.springframework.core.env.StandardEnvironment;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyVararg;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -486,7 +487,7 @@ public class JGitEnvironmentRepositoryTests {
 		// refresh()->return
 		// git.getRepository().findRef("HEAD").getObjectId().getName();
 		Ref headRef = mock(Ref.class);
-		when(this.database.getRef(anyString())).thenReturn(headRef);
+		when(this.database.firstExactRef(anyVararg())).thenReturn(headRef);
 
 		ObjectId newObjectId = ObjectId.fromRaw(new int[] { 1, 2, 3, 4, 5 });
 		when(headRef.getObjectId()).thenReturn(newObjectId);
@@ -500,6 +501,11 @@ public class JGitEnvironmentRepositoryTests {
 
 	private Repository stubbedRepo() {
 		return spy(new Repository(new BaseRepositoryBuilder()) {
+			// Required by newer JGit; also compiles against the original fixture.
+			public String getIdentifier() {
+				return "stubbed-repository";
+			}
+
 			@Override
 			public void create(boolean bare) throws IOException {
 
@@ -593,7 +599,7 @@ public class JGitEnvironmentRepositoryTests {
 
 		// refresh()->return git.getRepository().findRef("HEAD").getObjectId().getName();
 		Ref headRef = mock(Ref.class);
-		when(this.database.getRef(anyString())).thenReturn(headRef);
+		when(this.database.firstExactRef(anyVararg())).thenReturn(headRef);
 
 		ObjectId newObjectId = ObjectId.fromRaw(new int[] { 1, 2, 3, 4, 5 });
 		when(headRef.getObjectId()).thenReturn(newObjectId);
@@ -723,7 +729,7 @@ public class JGitEnvironmentRepositoryTests {
 		// refresh()->return
 		// git.getRepository().findRef("HEAD").getObjectId().getName();
 		Ref headRef = mock(Ref.class);
-		when(this.database.getRef(anyString())).thenReturn(headRef);
+		when(this.database.firstExactRef(anyVararg())).thenReturn(headRef);
 
 		ObjectId newObjectId = ObjectId.fromRaw(new int[] { 1, 2, 3, 4, 5 });
 		when(headRef.getObjectId()).thenReturn(newObjectId);
@@ -1086,7 +1092,7 @@ public class JGitEnvironmentRepositoryTests {
 		// refresh()->return
 		// git.getRepository().findRef("HEAD").getObjectId().getName();
 		Ref headRef = mock(Ref.class);
-		when(this.database.getRef(anyString())).thenReturn(headRef);
+		when(this.database.firstExactRef(anyVararg())).thenReturn(headRef);
 
 		ObjectId newObjectId = ObjectId.fromRaw(new int[] { 1, 2, 3, 4, 5 });
 		when(headRef.getObjectId()).thenReturn(newObjectId);

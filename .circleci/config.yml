@@ -18,7 +18,7 @@ jobs:
           name: "Formatting and fast behavior units"
           command: >
             mvn -B -ntp -pl spring-cloud-config-server -am
-            -Dtest=AwsS3EnvironmentRepositoryTests,AwsS3CompatibilityTests,JGitSubmoduleCompatibilityTests
+            -Dtest=AwsS3EnvironmentRepositoryTests,AwsS3CompatibilityTests,JGitSubmoduleCompatibilityTests,SshTransportModuleCompatibilityTests,PropertyBasedSshSessionFactoryTest,SshPropertyValidatorTest,SshUriPropertyProcessorTest
             -Dsurefire.failIfNoSpecifiedTests=false test
       - save_cache:
           key: config-java8-v1-{{ checksum "pom.xml" }}
